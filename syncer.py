@@ -37,12 +37,11 @@ def sync(app):
     for directory in directories:
         server_dir = os.path.join(endpoint, directory)
         print "Processing %s..." % server_dir
-        resource = webdav_tools.valid_collection(os.path.dirname(server_dir), user, password)
+        resource = webdav_tools.valid_collection(server_dir, user, password)
         try:
             resource.listResources()
-        except webdav.Connection.WebdavError, e:
-            if "Not Found" not in str(e):
-                raise e
+        except:
+            print "Adding %s" % os.path.basename(server_dir)
             resource = webdav_tools.valid_collection(os.path.dirname(server_dir), user, password)
             resource.addCollection(os.path.basename(server_dir))
 
