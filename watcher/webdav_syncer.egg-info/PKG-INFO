@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: webdav-syncer
+Version: 0.1
+Summary: A daemon for watching and syncing directories
+Home-page: http://github.com/ubicast
+Author: Andrew Adams
+Author-email: a_adams@ubicast.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN

@@ -1,0 +1,5 @@
+class FolderWatcher(object):
+
+    def __init__(self, directory, EXCLUDES = []):
+        self.directory = directory
+        self.EXCLUDES = EXCLUDES

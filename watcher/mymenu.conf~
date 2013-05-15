@@ -1,0 +1,5 @@
+[mymenu]
+username = Admin
+password = admin
+endpoints = /Users/andy/code/ubicast/com.ubicast.mymenu
+excludes = backup,src,html,oclibs,bin
