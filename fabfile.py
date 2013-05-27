@@ -50,8 +50,15 @@ def restart_server(config, section):
     publish(config, section)
     server = env.parser.get(section, "remote_dir").rstrip("/")
     with cd(server):
-        run("sudo sh shutdown.sh")
+        sudo("sh shutdown.sh")
         time.sleep(10)
-        run("sudo sh startup.sh")
-        
-    
+        sudo("sh startup.sh")
+        counts = 0
+        while(!run("ps aux | grep mymenu | grep -v grep")):
+            print "Not found, sleeping and trying again in 10 seconds"
+            time.sleep(10)
+            sudo("sh startup.sh")
+            counts++
+            if counts >= 10:
+                print "Failed too many times, breaking out"
+                break
