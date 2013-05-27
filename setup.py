@@ -14,7 +14,8 @@ setup(
     url='http://github.com/ubicast',
     install_requires=[
         "pycli",
-        "Python_WebDAV_Library"
+        "Python_WebDAV_Library",
+        "fabric"
     ],
     setup_requires=[],
     packages=find_packages(exclude=['ez_setup']),
