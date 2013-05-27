@@ -5,8 +5,8 @@ import logging
 import os
 import os.path
 from time import mktime
-from lib import create_tools
-from lib import webdav_tools
+import create_tools
+import webdav_tools
 
 my_logger = logging.getLogger("webdavLogger")
 if len(my_logger.handlers) == 0:
