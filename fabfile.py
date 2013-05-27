@@ -54,6 +54,7 @@ def restart_server(config, section):
         time.sleep(5)
         run("ps aux | grep %s | grep -v grep| awk {'print $2'} | sudo xargs kill" %
             server)
+        time.sleep(5)
         run("sudo sh startup.sh")
         
     
