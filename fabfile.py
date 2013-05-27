@@ -51,10 +51,7 @@ def restart_server(config, section):
     server = env.parser.get(section, "remote_dir").rstrip("/")
     with cd(server):
         run("sudo sh shutdown.sh")
-        time.sleep(5)
-        run("ps aux | grep %s | grep -v grep| awk {'print $2'} | sudo xargs kill" %
-            server)
-        time.sleep(5)
+        time.sleep(10)
         run("sudo sh startup.sh")
         
     
