@@ -56,7 +56,7 @@ def restart_server(config, section):
             if run("ps aux| grep %s | grep -v grep" % server):
                 sudo("ps aux | grep %s | grep -v grep | awk {'print $2'}| sudo xargs kill -s kill" % server)
 
-        sudo("sh startup.sh")
+        sudo("sh startup.sh", pty=False)
         counts = 0
         test = ""
         while True:
@@ -65,7 +65,7 @@ def restart_server(config, section):
             if not test:
                 print "Not found, sleeping and trying again in 10 seconds"
                 time.sleep(10)
-                sudo("sh startup.sh")
+                sudo("sh startup.sh", pty=False)
                 counts += 1
                 if counts >= 10:
                     print "Failed too many times, breaking out"
