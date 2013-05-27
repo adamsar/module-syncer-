@@ -33,6 +33,7 @@ def sync(config, section):
     local("bin/python syncer.py %s %s" % (section, config))
 
 
+@hosts(["devandy2.ubicast.com"])            
 def publish(config, section):
     """Remote publishes all files on file system"""
     bootstrap(config, section)
