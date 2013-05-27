@@ -52,13 +52,16 @@ def restart_server(config, section):
     with cd(server):
         sudo("sh shutdown.sh")
         time.sleep(10)
+        if run("ps aux| grep %s | grep -v grep" % server):
+            sudo("ps aux | grep %s | grep -v grep | awk {'print $2'}| sudo xargs kill -s kill" % server)
+
         sudo("sh startup.sh")
         counts = 0
-        while(!run("ps aux | grep mymenu | grep -v grep")):
+        while(not run("ps aux | grep %s | grep -v grep" % server)):
             print "Not found, sleeping and trying again in 10 seconds"
             time.sleep(10)
             sudo("sh startup.sh")
-            counts++
+            counts += 1
             if counts >= 10:
                 print "Failed too many times, breaking out"
                 break
