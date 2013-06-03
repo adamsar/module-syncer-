@@ -19,6 +19,6 @@ def get_all_dirs(directory, parent_folder=""):
                 directories.append(d)
                 directories = directories + get_all_dirs(d, parent_folder=parent_folder)
     except OSError, aeError:
-        print "error"
+        print "Error"
 
     return directories

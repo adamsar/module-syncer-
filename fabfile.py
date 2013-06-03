@@ -15,14 +15,16 @@ sudo sh cmsshell.sh -script=script.cms
 sudo rm script.cms
 """
 
+env.roledefs ={
+    'dev': ['localhost'],
+    'stage': ['devandy2.ubicast.com']
+    }
 
 def bootstrap(config, section):
     """Bootstraps the environment. Can only be run once"""
     if not env.get("bootstrapped"):
         env.parser = ConfigParser.RawConfigParser(allow_no_value=True)
         env.parser.readfp(open(config))
-        env.hosts.extend([env.parser.get(section, "remote_server")])
-        env.host = env.parser.get(section, "remote_server")
         env.user = env.parser.get(section, "remote_user")
         env.key_filename = [env.parser.get(section, "remote_key")]
         env["bootstrapped"] = True
@@ -33,21 +35,16 @@ def sync(config, section):
     local("bin/python syncer.py %s %s" % (section, config))
 
 
-@hosts(["devandy2.ubicast.com"])            
 def publish(config, section):
     """Remote publishes all files on file system"""
     bootstrap(config, section)
     server = env.parser.get(section, "remote_dir").rstrip("/")
     with cd("%s/webapps/ROOT/WEB-INF" % server):
         run(CMS_SCRIPT)
-    
 
-@hosts(["devandy2.ubicast.com"])            
 def restart_server(config, section):
-    """Restarts a remote server, require a config and a section"""
+    """Restarts the specified install on the server"""
     bootstrap(config, section)
-    sync(config, section)
-    publish(config, section)
     server = env.parser.get(section, "remote_dir").rstrip("/")
     with cd(server):
         sudo("sh shutdown.sh")
@@ -72,3 +69,9 @@ def restart_server(config, section):
                     break
             else:
                 break
+
+def deploy(config, section):
+    """Deploys code, publishes and restarts a remote server"""
+    sync(config, section)
+    publish(config, section)
+    restart_server(config,section)
