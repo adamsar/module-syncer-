@@ -1,0 +1,19 @@
+*.class
+!.properties
+!.settings
+*~
+*#
+*.pyc
+# Package Files #
+#*.jar
+*.war
+*.ear
+\.*
+bin/*
+classes/*
+lib/*
+*.egg-info
+include/*
+share/*
+dist/*
+.Python
