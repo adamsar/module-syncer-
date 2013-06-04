@@ -25,13 +25,17 @@ def bootstrap(config, section):
     if not env.get("bootstrapped"):
         env.parser = ConfigParser.RawConfigParser(allow_no_value=True)
         env.parser.readfp(open(config))
-        env.user = env.parser.get(section, "remote_user")
-        env.key_filename = [env.parser.get(section, "remote_key")]
+        if env.parser.get(section, "remote_user"):
+            env.user = env.parser.get(section, "remote_user")
+        if env.parser.get(section, "remote_key"):
+            env.key_filename = [env.parser.get(section, "remote_key")]
+            
+        #Set an env var to denote that the system has indeed been bootstrapped.
         env["bootstrapped"] = True
 
 
 def sync(config, section):
-    """Synchronizes fileson the remote server"""
+    """Synchronizes files to a remote server"""
     local("bin/python syncer.py %s %s" % (section, config))
 
 
