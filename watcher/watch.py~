@@ -1,6 +1,0 @@
-import ConfigParser
-if __name__ == "__main__":
-    ini_file = argv[1]
-    
-    while True:
-        
