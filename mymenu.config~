@@ -1,6 +1,0 @@
-[mymenu_local]
-username = Admin
-password = admin
-endpoint = http://mymenu.ubicast.com/webdav/system/modules/com.ubicast.mymenu/
-folder = /Users/john/code/com.ubicast.mymenu
-excludes = backup,src,html,oclibs,lib

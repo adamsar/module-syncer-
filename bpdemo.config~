@@ -1,5 +1,0 @@
-[local]
-  username = Admin
-  password = admin
-  endpoint = http://localhost:8080/bp/webdav/system/modules/com.ubicast.bpdemo/
-  folder = /Users/andy/code/ubicast/com.ubicast.bpdemo
