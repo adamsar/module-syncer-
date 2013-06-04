@@ -1,18 +1,18 @@
 import cli.app
 import ConfigParser
-import datetime
-import logging
 import os
 import os.path
-from time import mktime
+
 import create_tools
 import webdav_tools
+import time
+import logging
 
 my_logger = logging.getLogger("webdavLogger")
-if len(my_logger.handlers) == 0:
+if not len(my_logger.handlers):
     my_logger.level = logging.WARN
     formatter = logging.Formatter(_fileLogFormat)
-    if handler is None:
+    if not handler:
         stdoutHandler = logging.StreamHandler(sys.stdout)
         stdoutHandler.setFormatter(formatter)
         my_logger.addHandler(stdoutHandler)
@@ -30,7 +30,8 @@ def sync(app):
     password = parser.get(app.params.app, "password").strip()
     endpoint = parser.get(app.params.app, "endpoint")
     folder = parser.get(app.params.app, "folder")
-    create_tools.EXCLUDES = [d.strip() for d in parser.get(app.params.app, "excludes").split(",")]
+    create_tools.EXCLUDES = [d.strip() for d in \
+    parser.get(app.params.app, "excludes").split(",")]
 
     directories = create_tools.get_all_dirs("", parent_folder=folder)
 
@@ -58,7 +59,8 @@ def sync(app):
                         new_resource = resource.addResource(f)
                         new_resource.uploadFile(open(system_file, "rb"))
                 else:
-                    if server_files[f].getContentLength() not in [os.path.getsize(system_file) + 3, os.path.getsize(system_file)]:
+                    if server_files[f].getContentLength() not in [os.path.getsize(system_file) + 3, os.path.getsize(system_file)] or\
+                       server_files[f].getLastModified() < time.gmtime(os.path.getmtime(system_file)):
                         print "Updating %s" % f
                         existing_resource = webdav_tools.valid_resource(os.path.join(server_dir, f), user, password)
                         existing_resource.uploadContent(open(system_file, "rb").read())

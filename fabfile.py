@@ -20,6 +20,7 @@ env.roledefs ={
     'stage': ['devandy2.ubicast.com']
     }
 
+
 def bootstrap(config, section):
     """Bootstraps the environment. Can only be run once"""
     if not env.get("bootstrapped"):
