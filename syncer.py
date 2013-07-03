@@ -8,18 +8,8 @@ import webdav_tools
 import time
 import logging
 
-my_logger = logging.getLogger("webdavLogger")
-if not len(my_logger.handlers):
-    my_logger.level = logging.WARN
-    formatter = logging.Formatter(_fileLogFormat)
-    if not handler:
-        stdoutHandler = logging.StreamHandler(sys.stdout)
-        stdoutHandler.setFormatter(formatter)
-        my_logger.addHandler(stdoutHandler)
-    else:
-        my_logger.addHandler(handler)
-else:
-    my_logger.handlers[0].level = logging.WARN
+#Get rid of annoying webdav log messages
+logging.getLogger("webdavLogger").handlers[0].level = logging.WARN
 
 @cli.app.CommandLineApp
 def sync(app):
