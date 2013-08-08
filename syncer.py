@@ -20,8 +20,11 @@ def sync(app):
     password = parser.get(app.params.app, "password").strip()
     endpoint = parser.get(app.params.app, "endpoint")
     folder = parser.get(app.params.app, "folder")
-    create_tools.EXCLUDES = [d.strip() for d in \
+    create_tools.EXCLUDES += [d.strip() for d in \
     parser.get(app.params.app, "excludes").split(",")]
+    if folder[len(folder) - 1] != "/":
+        folder += "/"
+    create_tools.STARTING_FOLDER = folder
 
     directories = create_tools.get_all_dirs("", parent_folder=folder)
 

@@ -26,10 +26,11 @@ def bootstrap(config, section):
     if not env.get("bootstrapped"):
         env.parser = ConfigParser.RawConfigParser(allow_no_value=True)
         env.parser.readfp(open(config))
-        if env.parser.get(section, "remote_user"):
-            env.user = env.parser.get(section, "remote_user")
-        if env.parser.get(section, "remote_key"):
+        try:
+            env.user = env.parser.get(section, "remote_user")            
             env.key_filename = [env.parser.get(section, "remote_key")]
+        except ConfigParser.NoOptionError:
+            print "Not using EC2 pem"
             
         #Set an env var to denote that the system has indeed been bootstrapped.
         env["bootstrapped"] = True
