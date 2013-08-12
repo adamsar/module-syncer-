@@ -1,3 +1,4 @@
+from clint.textui import colored
 import cli.app
 import ConfigParser
 import os
@@ -30,12 +31,12 @@ def sync(app):
 
     for directory in directories:
         server_dir = os.path.join(endpoint, directory)
-        print "Processing %s..." % server_dir
+        print "Processing %s..." % colored.blue(server_dir)
         resource = webdav_tools.valid_collection(server_dir, user, password)
         try:
             resource.listResources()
         except:
-            print "Adding %s" % os.path.basename(server_dir)
+            print "Adding %s" % colored.green(os.path.basename(server_dir))
             resource = webdav_tools.valid_collection(os.path.dirname(server_dir), user, password)
             resource.addCollection(os.path.basename(server_dir))
 
@@ -48,13 +49,13 @@ def sync(app):
             if not os.path.isdir(system_file):
                 if f not in server_files:
                     if not f.startswith(".") and not f.endswith("~") and not f.endswith("#"):
-                        print "Creating %s" % f
+                        print "Creating %s" % colored.green(f)
                         new_resource = resource.addResource(f)
                         new_resource.uploadFile(open(system_file, "rb"))
                 else:
                     if server_files[f].getContentLength() not in [os.path.getsize(system_file) + 3, os.path.getsize(system_file)] or\
                        server_files[f].getLastModified() < time.gmtime(os.path.getmtime(system_file)):
-                        print "Updating %s" % f
+                        print "Updating %s" % colored.green(f)
                         existing_resource = webdav_tools.valid_resource(os.path.join(server_dir, f), user, password)
                         existing_resource.uploadContent(open(system_file, "rb").read())
 

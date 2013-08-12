@@ -15,7 +15,8 @@ setup(
     install_requires=[
         "pycli",
         "Python_WebDAV_Library",
-        "fabric"
+        "fabric",
+        "clint"
     ],
     setup_requires=[],
     packages=find_packages(exclude=['ez_setup']),
