@@ -54,7 +54,6 @@ def restart_server(config, section):
     """Restarts the specified install on the server"""
     bootstrap(config, section)
     server = env.parser.get(section, "remote_dir").rstrip("/")
-    servlet = env.parser.get(section, "remote_servlet")
     with cd(server):
         if exists("bin"):
             sudo("sh bin/shutdown.sh")
