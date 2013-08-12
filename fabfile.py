@@ -3,6 +3,7 @@ Files for Fabric interacting with the server
 """
 
 from fabric.api import *
+from fabric.contrib.files import exists
 import ConfigParser
 import time
 
@@ -45,21 +46,29 @@ def publish(config, section):
     """Remote publishes all files on file system"""
     bootstrap(config, section)
     server = env.parser.get(section, "remote_dir").rstrip("/")
-    with cd("%s/webapps/ROOT/WEB-INF" % server):
+    servlet = env.parser.get(section, "remote_servlet")
+    with cd("%s/webapps/%s/WEB-INF" % (server, servlet)):
         run(CMS_SCRIPT)
 
 def restart_server(config, section):
     """Restarts the specified install on the server"""
     bootstrap(config, section)
     server = env.parser.get(section, "remote_dir").rstrip("/")
+    servlet = env.parser.get(section, "remote_servlet")
     with cd(server):
-        sudo("sh shutdown.sh")
+        if exists("bin"):
+            sudo("sh bin/shutdown.sh")
+        else:
+            sudo("sh shutdown.sh")
         time.sleep(10)
         with settings(warn_only=True):
             if run("ps aux| grep %s | grep -v grep" % server):
                 sudo("ps aux | grep %s | grep -v grep | awk {'print $2'}| sudo xargs kill -s kill" % server)
 
-        sudo("sh startup.sh", pty=False)
+        if exists("bin"):
+            sudo("sh bin/startup.sh", pty=False)
+        else:
+            sudo("sh startup.sh", pty=False)
         counts = 0
         test = ""
         while True:
@@ -68,7 +77,10 @@ def restart_server(config, section):
             if not test:
                 print "Not found, sleeping and trying again in 10 seconds"
                 time.sleep(10)
-                sudo("sh startup.sh", pty=False)
+                if exists("bin"):
+                    sudo("sh bin/startup.sh", pty=False)
+                else:
+                    sudo("sh startup.sh", pty=False)
                 counts += 1
                 if counts >= 10:
                     print "Failed too many times, breaking out"
