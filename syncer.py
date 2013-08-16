@@ -30,7 +30,7 @@ def sync(app):
     directories = create_tools.get_all_dirs("", parent_folder=folder)
 
     for directory in directories:
-        server_dir = os.path.join(endpoint, directory)
+        server_dir = os.path.join(endpoint, directory).replace("\\", "/")
         print "Processing %s..." % colored.blue(server_dir)
         resource = webdav_tools.valid_collection(server_dir, user, password)
         try:
@@ -56,7 +56,7 @@ def sync(app):
                     if server_files[f].getContentLength() not in [os.path.getsize(system_file) + 3, os.path.getsize(system_file)] or\
                        server_files[f].getLastModified() < time.gmtime(os.path.getmtime(system_file)):
                         print "Updating %s" % colored.green(f)
-                        existing_resource = webdav_tools.valid_resource(os.path.join(server_dir, f), user, password)
+                        existing_resource = webdav_tools.valid_resource(os.path.join(server_dir, f).replace("\\", "/"), user, password)
                         existing_resource.uploadContent(open(system_file, "rb").read())
 
 
