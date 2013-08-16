@@ -1,6 +1,11 @@
 import os
 import os.path
+from clint.textui import colored
 from webdav import WebdavClient
+import logging
+
+#Get rid of annoying webdav log messages
+logging.getLogger("webdavLogger").handlers[0].level = logging.WARN
 
 def valid_collection(directory, user, password):
     resource = WebdavClient.CollectionStorer(directory)
@@ -42,7 +47,7 @@ class WebdavSyncer(object):
             try:
                 collection.listResources()
             except:
-                print "Adding %s" % folder
+                print "Adding %s" % colored.green(folder)
                 collection = self.get_collection(os.path.dirname(d))
                 collection.addCollection(d)
                 
@@ -51,5 +56,6 @@ class WebdavSyncer(object):
         if not f.startswith(".") and not f.endswith("~") and not f.endswith("#"):
             self.check_folder(os.path.dirname(f))
             resource = self.get_resource(f)
+            print "Updating %s" % colored.green(f)
             resource.uploadContent(contents)
         

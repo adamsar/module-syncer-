@@ -1,4 +1,0 @@
-class WebdavSyncer(object):
-    
-    def __init__(self, endpoint):
-        
