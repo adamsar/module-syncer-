@@ -11,6 +11,7 @@ CMS_SCRIPT = """
 sudo sh -c "printf 'login \"Admin\" \"admin\"\n' > script.cms"
 sudo sh -c "printf 'setCurrentProject \"Offline\"\n' >> script.cms"
 sudo sh -c "printf 'publishProjectAndWait\n' >> script.cms"
+sudo sh -c "printf 'clearCaches\n' >> script.cms"
 sudo sh -c "printf 'exit' >> script.cms"
 sudo sh cmsshell.sh -script=script.cms
 sudo rm script.cms
