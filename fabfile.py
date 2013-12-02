@@ -19,7 +19,8 @@ sudo rm script.cms
 
 env.roledefs ={
     'dev': ['localhost'],
-    'stage': ['devandy2.ubicast.com']
+    'stage': ['devandy2.ubicast.com'],
+    'devaoki': ['devaoki2.ubicast.com']
     }
 
 
