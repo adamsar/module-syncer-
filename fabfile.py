@@ -21,7 +21,7 @@ env.roledefs ={
     'dev': ['localhost'],
     'stage': ['devandy2.ubicast.com'],
     'devaoki': ['devaoki2.ubicast.com'],
-    'ikumi': ['ec2-54-248-136-125.ap-northeast-1.compute.amazonaws.com']
+    'ikumi': ['54.248.215.164']
     }
 
 
@@ -52,9 +52,10 @@ def publish(config, section):
     servlet = env.parser.get(section, "remote_servlet")
     with cd("%s/webapps/%s/WEB-INF" % (server, servlet)):
         try:
-            run(CMS_SCRIPT, timeout = 5 * 60)
-        except :
+            run(CMS_SCRIPT, timeout = 10 * 60)
+        except:
             pass
+
 
 def restart_server(config, section):
     """Restarts the specified install on the server"""
