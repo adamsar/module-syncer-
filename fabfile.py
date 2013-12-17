@@ -20,7 +20,8 @@ sudo rm script.cms
 env.roledefs ={
     'dev': ['localhost'],
     'stage': ['devandy2.ubicast.com'],
-    'devaoki': ['devaoki2.ubicast.com']
+    'devaoki': ['devaoki2.ubicast.com'],
+    'ikumi': ['ec2-54-248-136-125.ap-northeast-1.compute.amazonaws.com']
     }
 
 
@@ -50,11 +51,22 @@ def publish(config, section):
     server = env.parser.get(section, "remote_dir").rstrip("/")
     servlet = env.parser.get(section, "remote_servlet")
     with cd("%s/webapps/%s/WEB-INF" % (server, servlet)):
-        run(CMS_SCRIPT)
+        try:
+            run(CMS_SCRIPT, timeout = 5 * 60)
+        except :
+            pass
 
 def restart_server(config, section):
     """Restarts the specified install on the server"""
     bootstrap(config, section)
+    use_service = False
+    try:
+        use_service = bool(env.parser.get(section, "use_service"))
+    except:
+        pass
+    if use_service:
+        sudo("service tomcat6 restart")
+        return
     server = env.parser.get(section, "remote_dir").rstrip("/")
     with cd(server):
         if exists("bin"):
