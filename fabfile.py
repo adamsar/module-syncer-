@@ -42,7 +42,15 @@ def bootstrap(config, section):
 
 def sync(config, section):
     """Synchronizes files to a remote server"""
-    local("bin/python syncer.py %s %s" % (section, config))
+    def do_sync(attempt=3):
+        if attempt > 0:
+            try:
+                local("bin/python syncer.py %s %s" % (section, config))
+            except:
+                do_sync(attempt - 1)
+        else:
+            raise RuntimeError()
+    do_sync()
 
 
 def publish(config, section):
