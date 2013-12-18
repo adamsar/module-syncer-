@@ -52,7 +52,7 @@ def publish(config, section):
     servlet = env.parser.get(section, "remote_servlet")
     with cd("%s/webapps/%s/WEB-INF" % (server, servlet)):
         try:
-            run(CMS_SCRIPT, timeout = 10 * 60)
+            run(CMS_SCRIPT, timeout = 5 * 60)
         except:
             pass
 
