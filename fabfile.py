@@ -20,8 +20,8 @@ sudo rm script.cms
 env.roledefs ={
     'dev': ['localhost'],
     'stage': ['ec2-54-249-194-79.ap-northeast-1.compute.amazonaws.com'],
-    'devaoki': ['devaoki2.ubicast.com'],
-    'ikumi': ['54.248.215.164']
+    'devaoki': ['mymenuredhat.opencms.jp'],
+    'chef': ['ec2-54-199-33-32.ap-northeast-1.compute.amazonaws.com']
     }
 
 
