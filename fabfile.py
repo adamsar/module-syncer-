@@ -46,7 +46,7 @@ def sync(config, section):
     def do_sync(attempt=3):
         if attempt > 0:
             try:
-                local("bin/python syncer.py %s %s" % (section, config))
+                local("python syncer.py %s %s" % (section, config))
             except:
                 time.sleep(2)
                 do_sync(attempt - 1)
